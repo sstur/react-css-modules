@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import extendReactClass from './extendReactClass';
-import wrapStatelessFunction from './wrapStatelessFunction';
+import wrapComponent from './wrapComponent';
 
 /**
  * @see https://github.com/gajus/react-css-modules#options
@@ -8,31 +7,18 @@ import wrapStatelessFunction from './wrapStatelessFunction';
 type OptionsType = {};
 
 /**
- * Determines if the given object has the signature of a class that inherits React.Component.
- */
-const isReactComponent = (maybeReactComponent: any): boolean => {
-    return 'prototype' in maybeReactComponent && _.isFunction(maybeReactComponent.prototype.render);
-};
-
-/**
  * When used as a function.
  */
 const functionConstructor = (Component: Function, defaultStyles: Object, options: OptionsType): Function => {
-    let decoratedClass;
-
-    if (isReactComponent(Component)) {
-        decoratedClass = extendReactClass(Component, defaultStyles, options);
-    } else {
-        decoratedClass = wrapStatelessFunction(Component, defaultStyles, options);
-    }
+    let WrappedComponent = wrapComponent(Component, defaultStyles, options);
 
     if (Component.displayName) {
-        decoratedClass.displayName = Component.displayName;
+        WrappedComponent.displayName = Component.displayName;
     } else {
-        decoratedClass.displayName = Component.name;
+        WrappedComponent.displayName = Component.name;
     }
 
-    return decoratedClass;
+    return WrappedComponent;
 };
 
 /**
