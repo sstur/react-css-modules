@@ -1,3 +1,4 @@
+lib
 node_modules
 coverage
 dist
@@ -7,4 +8,6 @@ dist
 !.gitignore
 !.npmignore
 !.babelrc
+!.eslintrc
+!.eslintignore
 !.travis.yml
